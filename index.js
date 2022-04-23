@@ -1,9 +1,15 @@
 import express from "express";
+import cors from "cors";
 
 const app =  express();
-app.listen(5000)
+app.use(cors());
+app.use(express.json())
+app.listen(5000);
+
+let users = [];
 
 app.post("/sign-up", (req, res) => {
-    
-    res.send("OK")
+    const {username, avatar} = req.body;
+    users.push({username, avatar})
+    res.send("ok")
 });
