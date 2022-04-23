@@ -25,5 +25,8 @@ app.post("/tweets", (req, res) => {
     const {avatar} = user;
     const {username, tweet} = req.body;
     tweets.push({username, avatar,tweet})
+    if(tweets.length > 10){
+        tweets.shift()
+    }
     res.send("ok")
 });
