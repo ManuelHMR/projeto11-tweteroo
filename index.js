@@ -9,6 +9,7 @@ app.listen(5000);
 let user = {};
 let users = [];
 let tweets = [];
+const LIMIT = 10;
 
 app.post("/sign-up", (req, res) => {
     const {username, avatar} = req.body;
@@ -23,7 +24,11 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
-    res.send(tweets)
+    const page = req.query.page;
+    const startIndex = (page - 1) * LIMIT;
+    const endIndex = (page) * LIMIT;
+    const resultTweets = tweets.slice(startIndex, endIndex);
+    res.send(resultTweets);
 });
 
 app.post("/tweets", (req, res) => {
@@ -32,9 +37,6 @@ app.post("/tweets", (req, res) => {
     const username = req.headers.user;
     if(username && tweet){
         tweets.push({username, avatar,tweet})
-        if(tweets.length > 10){
-            tweets.shift()
-        }
         res.status(201).send("ok")
     }
     else{
